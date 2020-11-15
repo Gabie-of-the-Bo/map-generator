@@ -49,9 +49,15 @@ class Map:
 
         return self
    
-    def show(self):
+    def show(self, shape=None):
         if not self.composed:
             self.compose()
 
-        cv.imshow("Map visualization", cv.cvtColor(self.color, cv.COLOR_RGB2BGR))
-        cv.waitKey()
+        if shape:
+            cv.imshow("Map visualization", cv.resize(cv.cvtColor(self.color, cv.COLOR_RGB2BGR), shape, interpolation=cv.INTER_LANCZOS4))
+            cv.waitKey()
+
+        else:
+            cv.imshow("Map visualization", cv.cvtColor(self.color, cv.COLOR_RGB2BGR))
+            cv.waitKey()
+            

@@ -9,7 +9,7 @@ layers = {
 
 world = Map(500, 500).layered(layers, [
         UniformMapLayer(0),
-        BlobMapLayer(1, 0).circle(200, 300, 100).circle(0, 0, 75).rectangle(500, 250, 25, 250).rise(1).voronoify(100).voronoify(1000).rough_edges(1).perlin(20).distance_transform(20)
+        BlobMapLayer(1, 0).circle(200, 300, 100).circle(0, 0, 75).rectangle(500, 250, 25, 250).rise(1).voronoify(100).voronoify(1000).rough_edges(1).perlin(20).distance_transform(20),
     ])
 
-world.show()
+world.show((750, 750))
