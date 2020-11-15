@@ -16,3 +16,12 @@ class Circle:
 
         return mod <= self.radius
     
+class Rectangle:
+    def __init__(self, ampX, ampY):
+        self.ampX = ampX
+        self.ampY = ampY
+
+    # Matrix representation
+    def as_matrix(self):
+        return np.ones((self.ampY * 2 + 1, self.ampX * 2 + 1), np.bool)
+

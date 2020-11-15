@@ -1,6 +1,7 @@
 import numpy as np
 import cv2 as cv
 import numba
+import random
 
 import sobol_seq as sobol
 from perlin_numpy import generate_fractal_noise_2d
@@ -46,6 +47,12 @@ class BlobMapLayer:
 
         return self
 
+
+    def rectangle(self, i, j, ampY, ampX):
+        self.shapes.append((i, j, Rectangle(ampX, ampY)))
+
+        return self
+
     # Transformations
     def perlin(self, scale: int):
         def func(mask: np.ndarray, heightMap: np.ndarray):
@@ -79,7 +86,7 @@ class BlobMapLayer:
 
     def voronoify(self, points: int):
         def func(mask: np.ndarray, heightMap: np.ndarray):
-            rnd = sobol.i4_sobol_generate(2, points)
+            rnd = np.array(random.sample(list(sobol.i4_sobol_generate(2, points * 2)), points))
             rnd[:, 0] *= mask.shape[0]
             rnd[:, 1] *= mask.shape[1]
 
