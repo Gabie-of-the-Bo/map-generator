@@ -53,6 +53,12 @@ class BlobMapLayer:
 
         return self
 
+
+    def maze(self, i, j, ampY, ampX, scale=1):
+        self.shapes.append((i, j, Maze(ampX, ampY, scale=scale)))
+
+        return self
+
     # Transformations
     def perlin(self, scale: int):
         def func(mask: np.ndarray, heightMap: np.ndarray):
@@ -132,6 +138,31 @@ class BlobMapLayer:
     def rise(self, height: int):
         def func(mask: np.ndarray, heightMap: np.ndarray):
             heightMap += height
+
+        self.transformations.append(func)
+
+        return self
+
+
+    def bottom_to(self, height: int):
+        def func(mask: np.ndarray, heightMap: np.ndarray):
+            min_height = np.min(heightMap)
+            heightMap -= min_height
+            heightMap += height
+
+        self.transformations.append(func)
+
+        return self
+
+    
+    def rotate(self, alpha: float, center):
+        center = tuple(reversed(center))
+
+        def func(mask: np.ndarray, heightMap: np.ndarray):
+            rot_mat = cv.getRotationMatrix2D(center, alpha, 1.0)
+
+            mask[:, :] = cv.warpAffine(mask.astype(np.uint8), rot_mat, mask.shape[1::-1], flags=cv.INTER_NEAREST)
+            heightMap[:, :] = cv.warpAffine(heightMap, rot_mat, mask.shape[1::-1], flags=cv.INTER_NEAREST)
 
         self.transformations.append(func)
 
